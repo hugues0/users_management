@@ -27,9 +27,9 @@ import UserTask from "./UserTask";
  */
 
  const priorityTypes = [
-  "LOW",
+  "Low",
   "Normal",
-  "HIGH",
+  "High",
 ];
 
 @Table({
@@ -50,7 +50,7 @@ class TaskModel extends Model {
   @Column(DataType.STRING)
   description!: string;
 
-  @AllowNull(false)
+  @AllowNull(true)
   @Column(DataType.STRING)
   fileAttachment!: string;
 

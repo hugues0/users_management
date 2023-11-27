@@ -9,6 +9,7 @@ import {
   Put,
   Query,
   Route,
+  Tags,
   Security,
   SuccessResponse,
 } from "tsoa";
@@ -20,6 +21,7 @@ import { HashString, comparePassword } from "../helpers";
 import { ErrorCode } from "../constants";
 import { INCORRECT_OLD_PASSWORD } from "../constants/general";
 
+@Tags("Users")
 @Route("api/users")
 @Security("jwtAuth")
 export default class UserController extends Controller {

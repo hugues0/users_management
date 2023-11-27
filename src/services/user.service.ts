@@ -88,8 +88,6 @@ class UserService {
     );
   }
 
-
-
   async changePassword(
     password: string,
     userId: string
@@ -103,18 +101,6 @@ class UserService {
     );
   }
 
-//   async setPassword(
-//     password: string,
-//     userId: string
-//   ): Promise<changedPassordResponse | undefined> {
-//     return sequelize.transaction(
-//       async (t) =>
-//         UserModel.update(
-//           { password, provider: null, profileId: null },
-//           { where: { id: userId }, transaction: t }
-//         ) as unknown as changedPassordResponse
-//     );
-//   }
 }
 
 export default new UserService();

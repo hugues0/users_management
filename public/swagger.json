@@ -172,6 +172,146 @@
 				],
 				"type": "object"
 			},
+			"prioritiesEnum": {
+				"enum": [
+					"Low",
+					"Normal",
+					"High"
+				],
+				"type": "string"
+			},
+			"Task": {
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"title": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"startDate": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"endDate": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"assignees": {
+						"items": {
+							"$ref": "#/components/schemas/User"
+						},
+						"type": "array"
+					},
+					"priority": {
+						"$ref": "#/components/schemas/prioritiesEnum"
+					},
+					"fileAttachment": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"title",
+					"description",
+					"startDate",
+					"endDate",
+					"assignees",
+					"priority",
+					"fileAttachment"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Pick_Task.Exclude_keyofTask.id__": {
+				"properties": {
+					"title": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"startDate": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"endDate": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"assignees": {
+						"items": {
+							"$ref": "#/components/schemas/User"
+						},
+						"type": "array"
+					},
+					"priority": {
+						"$ref": "#/components/schemas/prioritiesEnum"
+					},
+					"fileAttachment": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"title",
+					"description",
+					"startDate",
+					"endDate",
+					"assignees",
+					"priority",
+					"fileAttachment"
+				],
+				"type": "object",
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"Omit_Task.id_": {
+				"$ref": "#/components/schemas/Pick_Task.Exclude_keyofTask.id__",
+				"description": "Construct a type with the properties of T except for those in type K."
+			},
+			"CreateTask": {
+				"allOf": [
+					{
+						"$ref": "#/components/schemas/Omit_Task.id_"
+					},
+					{
+						"properties": {
+							"assignees": {
+								"items": {
+									"type": "string"
+								},
+								"type": "array"
+							}
+						},
+						"required": [
+							"assignees"
+						],
+						"type": "object"
+					}
+				]
+			},
+			"UpdateTask": {
+				"allOf": [
+					{
+						"$ref": "#/components/schemas/Omit_Task.id_"
+					},
+					{
+						"properties": {
+							"assignees": {
+								"items": {
+									"type": "string"
+								},
+								"type": "array"
+							}
+						},
+						"required": [
+							"assignees"
+						],
+						"type": "object"
+					}
+				]
+			},
 			"Partial_Omit_User.id__": {
 				"properties": {
 					"firstName": {
@@ -263,6 +403,9 @@
 						}
 					}
 				},
+				"tags": [
+					"Authentication"
+				],
 				"security": [],
 				"parameters": [],
 				"requestBody": {
@@ -292,6 +435,9 @@
 						}
 					}
 				},
+				"tags": [
+					"Authentication"
+				],
 				"security": [],
 				"parameters": [],
 				"requestBody": {
@@ -321,6 +467,9 @@
 						}
 					}
 				},
+				"tags": [
+					"Authentication"
+				],
 				"security": [],
 				"parameters": [],
 				"requestBody": {
@@ -350,6 +499,9 @@
 						}
 					}
 				},
+				"tags": [
+					"Authentication"
+				],
 				"security": [],
 				"parameters": [
 					{
@@ -373,6 +525,173 @@
 				}
 			}
 		},
+		"/api/tasks": {
+			"post": {
+				"operationId": "CreateTask",
+				"responses": {
+					"201": {
+						"description": "Successfully created.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Task"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Tasks"
+				],
+				"security": [
+					{
+						"jwtAuth": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateTask"
+							}
+						}
+					}
+				}
+			},
+			"get": {
+				"operationId": "GetAllTasks",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/Task"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Tasks"
+				],
+				"security": [
+					{
+						"jwtAuth": []
+					}
+				],
+				"parameters": []
+			}
+		},
+		"/api/tasks/{id}": {
+			"get": {
+				"operationId": "GetById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Task"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Tasks"
+				],
+				"security": [
+					{
+						"jwtAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "UpdateTask",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Task"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Tasks"
+				],
+				"security": [
+					{
+						"jwtAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateTask"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "DeleteTask",
+				"responses": {
+					"204": {
+						"description": "No Content"
+					}
+				},
+				"tags": [
+					"Tasks"
+				],
+				"security": [
+					{
+						"jwtAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
 		"/api/users/{id}": {
 			"get": {
 				"operationId": "GetById",
@@ -388,6 +707,9 @@
 						}
 					}
 				},
+				"tags": [
+					"Users"
+				],
 				"security": [
 					{
 						"jwtAuth": []
@@ -418,6 +740,9 @@
 						}
 					}
 				},
+				"tags": [
+					"Users"
+				],
 				"security": [
 					{
 						"jwtAuth": []
@@ -451,6 +776,9 @@
 						"description": "No Content"
 					}
 				},
+				"tags": [
+					"Users"
+				],
 				"security": [
 					{
 						"jwtAuth": []
@@ -486,6 +814,9 @@
 						}
 					}
 				},
+				"tags": [
+					"Users"
+				],
 				"security": [
 					{
 						"jwtAuth": []
@@ -509,6 +840,9 @@
 						}
 					}
 				},
+				"tags": [
+					"Users"
+				],
 				"security": [
 					{
 						"jwtAuth": []

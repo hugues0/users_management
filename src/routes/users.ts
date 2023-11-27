@@ -27,6 +27,7 @@ router.get(
     }
   }
 );
+
 router.put(
   "/users/:id",
   uuidValidator.uuidValidator,

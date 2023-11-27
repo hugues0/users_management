@@ -6,6 +6,7 @@ import {
   SuccessResponse,
   Path,
   Put,
+  Tags
 } from "tsoa";
 // import {
 //   CreateUser,
@@ -25,6 +26,7 @@ import { SUCCESS_CREATED } from "../constants/general";
 import { HTTP_CREATED, HTTP_OK } from "../constants/httpStatusCodes";
 //import { ICompanyProfileData } from "../types/Dtos/onBoardingCompany.Dto";
 
+@Tags("Authentication")
 @Route("api/auth")
 export default class AuthController extends Controller {
   @SuccessResponse(HTTP_CREATED, SUCCESS_CREATED)

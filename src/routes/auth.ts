@@ -79,7 +79,7 @@ router.post(
       if (error instanceof CustomError || error instanceof JsonWebTokenError) {
         return res.status(400).json({ error: error.message });
       }
-      return res.status(500).json({ error: SERVER_NOT_RESPONDING });
+      return res.status(500).json({ error });
     }
   }
 );

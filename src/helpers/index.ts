@@ -10,8 +10,10 @@ export const generateSalt = async (saltRounds: string) =>
  * @param plainText string
  * @returns  hashed text
  */
-export const HashString = async (plainText: string): Promise<string> =>
-  bcrypt.hashSync(plainText, await generateSalt(AppConfig.saltRounds));
+export const HashString = async (plainText: string): Promise<string> => {
+  const salt = await generateSalt(AppConfig.saltRounds);
+  return bcrypt.hashSync(plainText, salt);
+};
 
 export const comparePassword = async (
   password: string,

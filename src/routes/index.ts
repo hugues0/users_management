@@ -1,7 +1,8 @@
 import { Router } from "express";
 import authRoutes from "./auth";
-//import authMiddleware from "../middlewares/auth.middleware";
 import usersRoutes from "./users";
+import tasksRoutes from "./tasks";
+
 import rateLimiter from "../middlewares/rateLimiter";
 import authMiddleware from "../middlewares/auth.middleware";
 
@@ -24,6 +25,6 @@ routes.use(
 );
 
 // Protected routes
-routes.use(authMiddleware.isAuthenticated, usersRoutes);
+routes.use(authMiddleware.isAuthenticated, usersRoutes, tasksRoutes);
 
 export default routes;

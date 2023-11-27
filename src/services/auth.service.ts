@@ -73,9 +73,8 @@ class AuthService {
   ) {
     const { password } = resetPasswordRequest;
     const updatedPassword = await HashString(password);
-    const { id } = (await verifyToken(token)) as IJwtPayload;
-
-    await this.userService.update(id, { password: updatedPassword });
+    const { ref } = (await verifyToken(token)) as IJwtPayload;
+    await this.userService.update(ref, { password: updatedPassword });
 
     return {
       message: SUCCESS_PASSWORD_RESET,

@@ -29,7 +29,6 @@ import UserModel from "./User";
 
 @Table
 class UserTask extends Model {
-
   @ForeignKey(() => UserModel)
   @Column
   userId!: number;
@@ -37,6 +36,16 @@ class UserTask extends Model {
   @ForeignKey(() => TaskModel)
   @Column
   taskId!: number;
+
+  @CreatedAt
+  @Default(Sequelize.fn("NOW"))
+  @Column(DataType.DATE)
+  createdAt!: Date;
+
+  @UpdatedAt
+  @Default(Sequelize.fn("NOW"))
+  @Column(DataType.DATE)
+  updatedAt!: Date;
 }
 
 export default UserTask;

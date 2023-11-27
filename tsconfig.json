@@ -3,7 +3,7 @@
         "target": "es6",
         "module": "commonjs",
         "outDir": "./dist",
-        "strict": true,
+        "strict": false,
         "esModuleInterop": true,
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
@@ -13,7 +13,6 @@
         "types": [
             "node",
             "reflect-metadata",
-            "jest"
         ],
     },
     "include": [

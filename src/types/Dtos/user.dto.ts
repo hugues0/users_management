@@ -37,7 +37,7 @@ export interface IResetPasswordSuccess {
 }
 
 export interface IJwtPayload {
-  id: string;
+  ref: string;
 }
 
 export type changedPassordResponse = Omit<User, "password">;
