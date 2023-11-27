@@ -21,7 +21,7 @@ const corsOptions = {
   origin: "*",
   optionsSuccessStatus: 200,
 };
-app.set("trust proxy", true);
+//app.set("trust proxy", true);
 app.use(cors(corsOptions));
 //  App Middlewares
 app.use(express.json());

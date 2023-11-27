@@ -1,7 +1,7 @@
 import debug from "debug";
 import { Sequelize } from "sequelize-typescript";
 import { AppConfig, DatabaseConfig, isDevelopment } from ".";
-//import models from "../database/models";
+import models from "../database/models";
 
 const dbEnvironment = DatabaseConfig(AppConfig.environment);
 
@@ -17,9 +17,9 @@ const sequelize = new Sequelize({
   logging: (msg) => {
     if (isDevelopment) debug(msg);
   },
- // models,
+  models,
 });
 
-//sequelize.addModels(models);
+sequelize.addModels(models);
 
 export default sequelize;
