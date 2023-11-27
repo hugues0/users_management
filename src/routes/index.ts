@@ -1,7 +1,9 @@
 import { Router } from "express";
 import authRoutes from "./auth";
 //import authMiddleware from "../middlewares/auth.middleware";
+import usersRoutes from "./users";
 import rateLimiter from "../middlewares/rateLimiter";
+import authMiddleware from "../middlewares/auth.middleware";
 
 const routes = Router();
 
@@ -22,10 +24,6 @@ routes.use(
 );
 
 // Protected routes
-/* routes.use(
-  authMiddleware.isAuthenticated,
-  usersRoutes,
-  campaignRoutes,
-); */
+routes.use(authMiddleware.isAuthenticated, usersRoutes);
 
 export default routes;

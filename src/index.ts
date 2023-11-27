@@ -8,13 +8,13 @@ import { AppConfig } from "./configs";
 import sequelize from "./configs/database";
 import CustomError from "./helpers/CustomError";
 import { SERVER_NOT_RESPONDING } from "./constants/general";
+import { User } from "./types/Dtos/user.dto";
 
-/* declare module "express" {
+declare module "express" {
   interface Request {
     user?: User;
-    apiKey?: ApiKeyModel;
   }
-} */
+}
 
 const app: Application = express();
 const corsOptions = {

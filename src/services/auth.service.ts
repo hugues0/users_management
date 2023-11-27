@@ -1,8 +1,8 @@
 import { ErrorCode } from "../constants";
-import { SUCCESS_LOGIN, USER_EXIST } from "../constants/general";
-import { comparePassword, generateToken } from "../helpers";
+import { SEND_FORGET_PASSWORD, SUCCESS_LOGIN, SUCCESS_PASSWORD_RESET, USER_EXIST } from "../constants/general";
+import { HashString, comparePassword, generateToken, verifyToken } from "../helpers";
 import CustomError from "../helpers/CustomError";
-import { CreateUser, LoginUser } from "../types/Dtos/user.dto";
+import { CreateUser, ForgotPasswordRequest, IJwtPayload, LoginUser, ResetPasswordRequest } from "../types/Dtos/user.dto";
 import UserService from "./user.service";
 
 class AuthService {
@@ -46,6 +46,39 @@ class AuthService {
       success: true,
       accessToken: verificationToken,
       user: userPayload,
+    };
+  }
+
+  async forgotPassword(forgetPasswordRequest: ForgotPasswordRequest) {
+    const { email } = forgetPasswordRequest;
+    const findUser = await this.userService.getByEmail(email);
+    if (!findUser) {
+      return {
+        message: "Email not found",
+      };
+    }
+    const token =
+      findUser &&
+      (await generateToken({ ref: findUser.id, email: findUser.email }));
+
+    return {
+      message: SEND_FORGET_PASSWORD,
+      token,
+    };
+  }
+
+  async resetPassword(
+    token: string,
+    resetPasswordRequest: ResetPasswordRequest
+  ) {
+    const { password } = resetPasswordRequest;
+    const updatedPassword = await HashString(password);
+    const { id } = (await verifyToken(token)) as IJwtPayload;
+
+    await this.userService.update(id, { password: updatedPassword });
+
+    return {
+      message: SUCCESS_PASSWORD_RESET,
     };
   }
 }

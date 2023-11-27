@@ -25,3 +25,6 @@ export const generateToken = async (
     expiresIn: "1d",
   });
 };
+
+export const verifyToken = async (token: string) =>
+  jsonWebToken.verify(token, AppConfig.jwtSecret as string);

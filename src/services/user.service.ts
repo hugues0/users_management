@@ -4,6 +4,7 @@ import {
   CreateUser,
   //UpdateUser,
   User,
+  changedPassordResponse,
 } from "../types/Dtos/user.dto";
 import TaskModel from "../database/models/Task";
 import UserModel from "../database/models/User";
@@ -89,18 +90,18 @@ class UserService {
 
 
 
-//   async changePassword(
-//     password: string,
-//     userId: string
-//   ): Promise<changedPassordResponse | undefined> {
-//     return sequelize.transaction(
-//       async (t) =>
-//         UserModel.update(
-//           { password },
-//           { where: { id: userId }, transaction: t }
-//         ) as unknown as changedPassordResponse
-//     );
-//   }
+  async changePassword(
+    password: string,
+    userId: string
+  ): Promise<changedPassordResponse | undefined> {
+    return sequelize.transaction(
+      async (t) =>
+        UserModel.update(
+          { password },
+          { where: { id: userId }, transaction: t }
+        ) as unknown as changedPassordResponse
+    );
+  }
 
 //   async setPassword(
 //     password: string,
